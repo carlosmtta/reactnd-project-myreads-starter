@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import BookChanger from './BookChanger'
-import * as BooksAPI from './BooksAPI'
 
 class Books extends Component {
     
@@ -11,10 +10,22 @@ class Books extends Component {
         }))
         ContactsAPI.remove(contact)
       } */
-    
 
+  checkState(shelfName) {
+    if (shelfName != "") {
+        let shelfBooks = this.props.books.filter(book => book.shelf === this.props.shelf.name)
+        return shelfBooks;
+    } else {
+        let shelfBooks = this.props.books;
+        return shelfBooks;
+    }
+  }    
   render() {
-    const shelfBooks = this.props.books.filter(book => book.shelf === this.props.shelf.name)
+    console.log("shelfname", this.props.shelf)
+    
+    const shelfBooks = this.checkState(this.props.shelf.name)
+    //this.props.books.filter(book => book.shelf === this.props.shelf.name)
+
     return (
         
         <ol className="books-grid">

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import { debounce } from 'throttle-debounce';
-import Books from './Books'
+import BookResults from './BookResults'
 import PropTypes from 'prop-types'
 
 class SearchBook extends Component {
@@ -44,13 +44,13 @@ class SearchBook extends Component {
       if (this.state.query === '') {
         message = (
           <h2 style={{ textAlign: 'center' }}>
-            Write one or more keywords above to start searching.
+            Escreva uma ou mais palavras-chave para iniciar a busca.
           </h2>
         );
       } else if (this.state.results.length === 0) {
         message = (
           <h2 style={{ textAlign: 'center' }}>
-            No results found. Try different keywords.
+            Não encontrou resultados. Tente palavras-chave diferetes.
           </h2>
         );
       }
@@ -61,7 +61,7 @@ class SearchBook extends Component {
             <div className="search-books-input-wrapper">
               <input
                 type="text"
-                placeholder="Search by title or author"
+                placeholder="Procure por título ou autor."
                 value={this.state.query}
                 onChange={event => this.handleQueryChange(event)}
               />
@@ -71,15 +71,12 @@ class SearchBook extends Component {
             {message}
   
             <ol className="books-grid">
-              {this.state.results.map((book) => (
-                <li key={book.id}>
-                  <Books
-                    book={book}
-                    books={this.props.books}
+            {this.state.results.length > 0 &&
+               <BookResults
+                    books={this.state.results}
                     handleBookMove={this.props.handleBookMove}
-                  />
-                </li>
-              ))}
+                />
+              }
             </ol>
           </div>
         </div>
