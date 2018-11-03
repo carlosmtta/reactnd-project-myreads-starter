@@ -2,14 +2,18 @@ import React, { Component } from 'react'
 import * as BooksAPI from './BooksAPI'
 
 class BookChanger extends Component {
-  getShelfFromBook(book) {
-    const bookFound = this.props.books.find(b => b.id === book.id);
 
-    if (bookFound) {
-      return bookFound.shelf;
-    } else {
-      return 'none'
-    }
+  state = {
+    shelf: ""
+  }
+
+
+  componentWillMount() {
+    BooksAPI.get(this.props.book.id).then((book) => {
+      this.setState({"shelf": book.shelf}) 
+    }).catch((err) => {
+      return "none"
+    })
   }
   
   render() {
@@ -19,9 +23,9 @@ class BookChanger extends Component {
       <div className="book-shelf-changer">
         <select
           onChange={event => this.props.handleBookMove(this.props.book, event.target.value)}
-          value={this.getShelfFromBook(this.props.book)}
+          value={this.state.shelf}
         >
-          <option value="none" disabled>Move to...</option>
+          <option value="" disabled>Move to...</option>
           <option value="currentlyReading">Currently Reading</option>
           <option value="wantToRead">Want to Read</option>
           <option value="read">Read</option>

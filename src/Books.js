@@ -1,28 +1,26 @@
 import React, { Component } from 'react'
 import BookChanger from './BookChanger'
-
+import * as BooksAPI from './BooksAPI'
 class Books extends Component {
-    
-    
-/*     removeContact = (contact) => {
-        this.setState((state) => ({
-          contacts: state.contacts.filter((c) => c.id !== contact.id)
-        }))
-        ContactsAPI.remove(contact)
-      } */
 
   checkState(shelfName) {
     if (shelfName != "") {
         let shelfBooks = this.props.books.filter(book => book.shelf === this.props.shelf.name)
         return shelfBooks;
     } else {
-        let shelfBooks = this.props.books;
-        return shelfBooks;
+        return this.props.books;
     }
-  }    
+  }  
+  
+  checkThumbs(book) {
+    if (book.imageLinks && book.imageLinks.thumbnail) {
+        return 'url('+book.imageLinks.thumbnail+')'
+    } else {
+        return null
+    }
+  }
+
   render() {
-    console.log("shelfname", this.props.shelf)
-    
     const shelfBooks = this.checkState(this.props.shelf.name)
     //this.props.books.filter(book => book.shelf === this.props.shelf.name)
 
@@ -38,7 +36,7 @@ class Books extends Component {
                         style={{ 
                         width: 128, 
                         height: 193,
-                        backgroundImage: 'url('+book.imageLinks.thumbnail+')'
+                        backgroundImage: this.checkThumbs(book)
                         }}>
                     </div>
                     <BookChanger
